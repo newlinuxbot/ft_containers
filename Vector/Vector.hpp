@@ -13,13 +13,24 @@ namespace ft
             T *arr;
             int size;
             int index;
-
+            unsigned int maxsize;
         public:
+            typedef T* iterator;
+
             Vector()
             {
                 arr = new T[1];
                 size = 1;
                 index = 0;
+                maxsize = 1073741823;
+            }
+
+            Vector(T n)
+            {
+                arr = new T[n];
+                size = 1;
+                index = 0;
+                maxsize = 1073741823;
             }
 
             Vector(const Vector<T> &copy)
@@ -56,6 +67,20 @@ namespace ft
             int getIndex() const
             {
                 return index;
+            }
+            unsigned int max_size()
+            {
+                return maxsize;
+            }
+            
+            iterator begin()
+            {
+                return arr;
+            }
+
+            iterator end()
+            {
+                return arr+size;
             }
 
             
