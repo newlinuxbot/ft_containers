@@ -62,5 +62,23 @@ int main()
     //     cout << *i << " ";
     // cout << endl;
 
+    // ft::Vector<int> first;                                // empty vector of ints
+    // ft::Vector<int> second (4,100);                       // four ints with value 100
+    // ft::Vector<int> third (second.begin(),second.end());  // iterating through second
+    // ft::Vector<int> fourth (third);                       // a copy of third
+
+    // // the iterator constructor can also be used to construct from arrays:
+    // int *myints = new int[4];
+    // myints[0] = 16;
+    // myints[1] = 2;
+    // myints[2] = 77;
+    // myints[3] = 29;
+    // ft::Vector<int> fifth (myints, myints + 4 );
+
+    // std::cout << "The contents of fifth are:";
+    // for (ft::Vector<int>::iterator it = fifth.begin(); it != fifth.end(); ++it)
+    //     std::cout << ' ' << *it;
+    // std::cout << '\n';
+
     
 }

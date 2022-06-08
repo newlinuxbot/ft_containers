@@ -18,7 +18,7 @@ namespace ft
             typedef T* iterator;
             typedef std::reverse_iterator<iterator> reverse_iterator;
 
-            Vector()
+            explicit Vector (const std::allocator<T>& alloc = std::allocator<T>())
             {
                 arr = new T[1];
                 mysize = 0;
@@ -26,7 +26,8 @@ namespace ft
                 maxsize = 1073741823;
             }
             
-            Vector(int n, T val = 0)
+            explicit Vector (int n, const T& val = NULL,
+             const std::allocator<T>& alloc = std::allocator<T>())
             {
                 arr = new T[n];
                 for (int i = 0; i < n; i++)
@@ -43,6 +44,27 @@ namespace ft
                     arr[i] = copy.getArray()[i];
                 mysize = copy.size();
                 mycapacity = copy.capacity();
+            }
+
+            explicit Vector (iterator first, iterator last,
+            const std::allocator<T>& alloc = std::allocator<T>())
+            {
+                arr = new T[1];
+                mycapacity = 1;
+                mysize = 0;
+                for (iterator i = first; i < last; i++)
+                {
+                    if (mysize == mycapacity)
+                    {
+                        T *tmp = new T[mycapacity * 2];
+                        for (int i = 0; i < mysize; i++)
+                            tmp[i] = arr[i];
+                        delete[] arr;
+                        arr = tmp;
+                        mycapacity *= 2;
+                    }
+                    arr[mysize++] = *i;
+                } 
             }
 
             ~Vector()
@@ -191,12 +213,7 @@ namespace ft
                 mysize = 0;
             }
 
-            template <class InputIterator>
-            vector (InputIterator first, InputIterator last,
-                 const allocator_type& alloc = allocator_type())
-            {
-                
-            }
+            
     };
 }
 
