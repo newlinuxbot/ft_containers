@@ -21,17 +21,16 @@ namespace ft
             Vector()
             {
                 arr = new T[1];
-                arr[0] = 0;
                 mysize = 0;
-                mycapacity = 2;
+                mycapacity = 1;
                 maxsize = 1073741823;
             }
-
-            Vector(T n)
+            
+            Vector(int n, T val = 0)
             {
                 arr = new T[n];
                 for (int i = 0; i < n; i++)
-                    arr[i] = 0;
+                    arr[i] = val;
                 mysize = n;
                 mycapacity = n;
                 maxsize = 1073741823;
@@ -48,12 +47,12 @@ namespace ft
 
             ~Vector()
             {
-                delete arr;
+                delete[] arr;
             }
             
             Vector & operator=(const Vector &assign)
             {
-                delete arr;
+                delete[] arr;
                 arr = new T[assign.size()];
                 for (int i = 0; i < assign.size() ; i++)
                     arr[i] = assign.getArray()[i];
@@ -95,7 +94,7 @@ namespace ft
                 return reverse_iterator(begin());
             }
 
-            void resize(int s, int v = 0)
+            void resize(int s, T v = NULL)
             {
                 if (s < mysize)
                     mysize = s;
@@ -106,7 +105,7 @@ namespace ft
                         tmp[i] = arr[i];
                     for (int i = mysize; i < s; i++)
                         tmp[i] = v;
-                    delete arr;
+                    delete[] arr;
                     arr = tmp;
                     mysize = s;
                 }
@@ -131,7 +130,7 @@ namespace ft
                     T* tmp = new T[n];
                     for (int i = 0; i < mysize; i++)
                         tmp[i] = arr[i];
-                    delete arr;
+                    delete[] arr;
                     arr = tmp;
                     mycapacity = n;
                 }
@@ -165,6 +164,38 @@ namespace ft
             T back()
             {
                 return arr[mysize-1];
+            }
+
+            void push_back (const T& val)
+            {
+                if (mysize == mycapacity)
+                {
+                    T *tmp = new T[mycapacity * 2];
+                    for (int i = 0; i < mysize; i++)
+                        tmp[i] = arr[i];
+                    delete[] arr;
+                    arr = tmp;
+                    mycapacity *= 2;
+                }
+                arr[mysize++] = val;
+            }
+
+
+            void pop_back()
+            {
+                mysize--;
+            }
+
+            void clear()
+            {
+                mysize = 0;
+            }
+
+            template <class InputIterator>
+            vector (InputIterator first, InputIterator last,
+                 const allocator_type& alloc = allocator_type())
+            {
+                
             }
     };
 }
