@@ -213,6 +213,34 @@ namespace ft
                 mysize = 0;
             }
 
+            void assign (int n, const T& val)
+            {
+                T *tmp = new T[n];
+                mysize = 0;
+                for (int i = 0; i < n; i++)
+                    tmp[mysize++] = val;
+                delete[] arr;
+                arr = tmp;
+            }
+
+            void assign (iterator first, iterator last)
+            {
+                mycapacity = 1;
+                mysize = 0;
+                for (iterator i = first; i < last; i++)
+                {
+                    if (mysize == mycapacity)
+                    {
+                        T *tmp = new T[mycapacity * 2];
+                        for (int i = 0; i < mysize; i++)
+                            tmp[i] = arr[i];
+                        delete[] arr;
+                        arr = tmp;
+                        mycapacity *= 2;
+                    }
+                    arr[mysize++] = *i;
+                } 
+            }
             
     };
 }
