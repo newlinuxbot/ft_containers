@@ -80,21 +80,33 @@ int main()
     //     std::cout << ' ' << *it;
     // std::cout << '\n';
 
-    ft::Vector<int> first;
-    ft::Vector<int> second;
-    ft::Vector<int> third;
+    // ft::Vector<int> first;
+    // ft::Vector<int> second;
+    // ft::Vector<int> third;
 
-    first.assign (7,100);             // 7 ints with a value of 100
+    // first.assign (7,100);             // 7 ints with a value of 100
 
-    ft::Vector<int>::iterator it;
-    it=first.begin()+1;
+    // ft::Vector<int>::iterator it;
+    // it=first.begin()+1;
 
-    second.assign (it,first.end()-1); // the 5 central values of first
+    // second.assign (it,first.end()-1); // the 5 central values of first
 
-    int myints[] = {1776,7,4};
-    third.assign (myints,myints+3);   // assigning from array.
+    // int myints[] = {1776,7,4};
+    // third.assign (myints,myints+3);   // assigning from array.
 
-    std::cout << "Size of first: " << int (first.size()) << '\n';
-    std::cout << "Size of second: " << int (second.size()) << '\n';
-    std::cout << "Size of third: " << int (third.size()) << '\n';
+    // std::cout << "Size of first: " << int (first.size()) << '\n';
+    // std::cout << "Size of second: " << int (second.size()) << '\n';
+    // std::cout << "Size of third: " << int (third.size()) << '\n';
+
+    // ft::Vector<int> v;
+    // v.push_back(45);
+    // v.push_back(13);
+    // v.push_back(15);
+    // v.insert(v.begin(), 777);
+    // v.insert(v.end(), 100, 666);
+    // // for(int i = 0;i < 100023;i++)
+    // //     v.insert(v.end(), i);
+    // for (ft::Vector<int>::iterator i = v.begin(); i < v.end(); i++)
+    //     cout << *i << endl;
+    
 }

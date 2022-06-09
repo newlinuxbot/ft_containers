@@ -241,7 +241,64 @@ namespace ft
                     arr[mysize++] = *i;
                 } 
             }
-            
+
+            iterator insert (iterator position, const T& val)
+            {
+                int pos = position - arr;
+                if (mysize + 1 >= mycapacity)
+                {
+                    T *tmp = new T[mycapacity * 2];
+                    for (int i = 0; i < mysize; i++)
+                        tmp[i] = arr[i];
+                    delete[] arr;
+                    arr = tmp;
+                    mycapacity *= 2;
+                }
+                T *tmp2 = new T[mycapacity];
+                for (int i = 0, j = 0; i <= mysize;i++)
+                {
+                    if (i == pos)
+                    {
+                        tmp2[j] = val;
+                        j++;
+                    }
+                    tmp2[j++] = arr[i];
+                }
+                delete[] arr;
+                arr = tmp2;
+                mysize += 1;
+                return begin();
+            }
+
+            void insert (iterator position, int n, const T& val)
+            {
+                int pos = position - arr;
+                if (mysize + n >= mycapacity)
+                {
+                    T *tmp = new T[mycapacity + n];
+                    for (int i = 0; i < mysize; i++)
+                        tmp[i] = arr[i];
+                    delete[] arr;
+                    arr = tmp;
+                    mycapacity += n;
+                }
+                T *tmp2 = new T[mycapacity];
+                for (int i = 0, j = 0; i <= mysize;i++)
+                {
+                    if (i == pos)
+                    {
+                        for(int x = 0; x < n; x++)
+                            tmp2[j++] = val;
+                    }
+                    tmp2[j++] = arr[i];
+                }
+                delete[] arr;
+                arr = tmp2;
+                mysize += n;
+            }
+
+           
+
     };
 }
 
