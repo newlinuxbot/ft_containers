@@ -297,6 +297,35 @@ namespace ft
                 mysize += n;
             }
 
+            void insert (iterator position, iterator first, iterator last)
+            {
+                int pos = position - arr;
+                if (mysize + last-first >= mycapacity)
+                {
+                    T *tmp = new T[mycapacity * 2 + last-first];
+                    for (int i = 0; i < mysize; i++)
+                        tmp[i] = arr[i];
+                    delete[] arr;
+                    arr = tmp;
+                    mycapacity = mycapacity * 2 + last-first;
+                }
+                T *tmp2 = new T[mycapacity];
+                for (int i = 0, j = 0; i <= mysize;i++)
+                {
+                    if (i == pos)
+                    {
+                        for (iterator x = first; x < last; x++)
+                        {
+                            tmp2[j] = *x;
+                            j++;
+                        }
+                    }
+                    tmp2[j++] = arr[i];
+                }
+                delete[] arr;
+                arr = tmp2;
+                mysize += last-first;
+            }
            
 
     };
