@@ -327,7 +327,41 @@ namespace ft
                 mysize += last-first;
             }
            
+            
+            iterator erase (iterator position)
+            {
+                int pos = position - arr;
+                T *tmp = new T[mycapacity];
+                for (int i = 0, j = 0; i <= mysize;i++)
+                {
+                    if (i == pos)
+                        continue;
+                    tmp[j++] = arr[i];
+                }
+                delete[] arr;
+                arr = tmp;
+                mysize -= 1;
+                return position;
+            }
+            
+            iterator erase (iterator first, iterator last)
+            {
+                int firstpos = first - arr;
+                int lastpos = last - arr;
+                T *tmp = new T[mycapacity];
+                for (int i = 0,j = 0; i < mysize;i++)
+                {
+                    if (i == firstpos)
+                        i += lastpos - firstpos;
+                    tmp[j++] = arr[i];
+                }
+                delete[] arr;
+                arr = tmp;
+                mysize -= (lastpos - firstpos);
+                return first;
+            }
 
+            
     };
 }
 
