@@ -208,11 +208,6 @@ namespace ft
                 mysize--;
             }
 
-            void clear()
-            {
-                mysize = 0;
-            }
-
             void assign (int n, const T& val)
             {
                 T *tmp = new T[n];
@@ -361,7 +356,29 @@ namespace ft
                 return first;
             }
 
+            void swap (Vector& x)
+            {
+                T* tmpArr = arr;
+                int tmpMySize = mysize;
+                int tmpMyCapacity = mycapacity;
+                arr = x.arr;
+                mysize = x.mysize;
+                mycapacity = x.mycapacity;
+                x.arr = tmpArr;
+                x.mysize = tmpMySize;
+                x.mycapacity = mycapacity;
+            }
+
+            void clear()
+            {
+                delete[] arr;
+                arr = new T[1];
+                mysize = 0;
+                mycapacity = 1;
+            }
             
+            
+
     };
 }
 
