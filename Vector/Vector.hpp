@@ -376,6 +376,25 @@ namespace ft
                 mycapacity = 1;
             }
 
+            bool operator== (const Vector<T,Alloc>& rhs)
+            {
+                if (mysize != rhs.size())
+                    return false;
+                return equal(begin(), end(), rhs.begin());
+            }
+            bool operator!= (const Vector<T,Alloc>& rhs)
+            {
+                if (mysize == rhs.size())
+                    return false;
+                return !equal(begin(), end(), rhs.begin());
+            }
+            bool operator> (const Vector<T,Alloc>& rhs)
+            {
+                if (mysize == rhs.size())
+                    return false;
+                return !equal(begin(), end(), rhs.begin());
+            }
+
     };
 }
 

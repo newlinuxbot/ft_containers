@@ -4,6 +4,10 @@
 
 using namespace std;
 
+bool mypredicate (int i, int j) {
+  return (i==j);
+}
+
 int main()
 {
     // ft::Vector<int> f(5);
@@ -182,5 +186,27 @@ int main()
     //     std::cout << ' ' << myvector[i];
     // std::cout << '\n';
 
+    // int myints[] = {20,40,60,80,100};               //   myints: 20 40 60 80 100
+    // std::vector<int>myvector (myints,myints+5);     // myvector: 20 40 60 80 100
+
+    // // using default comparison:
+    // if ( std::equal (myvector.begin(), myvector.end(), myints) )
+    //     std::cout << "The contents of both sequences are equal.\n";
+    // else
+    //     std::cout << "The contents of both sequences differ.\n";
+
+    // myvector[3]=81;                                 // myvector: 20 40 60 81 100
+
+    // // using predicate comparison:
+    // if ( std::equal (myvector.begin(), myvector.end(), myints, mypredicate) )
+    //     std::cout << "The contents of both sequences are equal.\n";
+    // else
+    //     std::cout << "The contents of both sequences differ.\n";
+
+    std::vector<int> foo (3,100);   // three ints with a value of 100
+    std::vector<int> bar (2,200);   // two ints with a value of 200
+
+    if (foo==bar) std::cout << "foo and bar are equal\n";
+    if (foo!=bar) std::cout << "foo and bar are not equal\n";
     return 0;
 }
