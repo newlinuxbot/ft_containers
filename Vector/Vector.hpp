@@ -397,6 +397,17 @@ namespace ft
                 return true;
             }
 
+            bool lexicographical_compare (iterator first1, iterator last1, iterator first2, iterator last2)
+            {
+                while (first1!=last1)
+                {
+                    if (first2==last2 || *first2<*first1) return false;
+                    else if (*first1<*first2) return true;
+                    ++first1; ++first2;
+                }
+                return (first2!=last2);
+            }
+
             bool operator== (const Vector<T,Alloc>& rhs)
             {
                 if (mysize != rhs.size())
@@ -409,13 +420,15 @@ namespace ft
                     return false;
                 return !equal(begin(), end(), rhs.begin());
             }
-            bool operator> (const Vector<T,Alloc>& rhs)
+            bool operator< (const Vector<T,Alloc>& rhs)
             {
-                if (mysize == rhs.size())
-                    return false;
-                return !equal(begin(), end(), rhs.begin());
+                return lexicographical_compare()
             }
 
+            Allocator get_allocator() const 
+            { 
+                return alloc; 
+            }
     };
 }
 
