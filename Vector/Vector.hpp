@@ -422,10 +422,21 @@ namespace ft
             }
             bool operator< (const Vector<T,Alloc>& rhs)
             {
-                return lexicographical_compare()
+                return lexicographical_compare(begin(), end(), rhs.begin(), rhs.end());
             }
-
-            Allocator get_allocator() const 
+            bool operator> (const Vector<T,Alloc>& rhs)
+            {
+                return lexicographical_compare(rhs.begin(), rhs.end(), begin(), end());
+            }
+            bool operator<= (const Vector<T,Alloc>& rhs)
+            {
+                return equal(begin(), end(), rhs.begin()) || !lexicographical_compare(begin(), end(), rhs.begin(), rhs.end());
+            }
+             bool operator>= (const Vector<T,Alloc>& rhs)
+            {
+                return equal(begin(), end(), rhs.begin()) || !lexicographical_compare(rhs.begin(), rhs.end(), begin(), end());
+            }
+            std::allocator<T> get_allocator() const 
             { 
                 return alloc; 
             }
