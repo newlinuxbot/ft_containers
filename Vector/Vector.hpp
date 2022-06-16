@@ -4,6 +4,8 @@
 # include <iostream>
 # include <string>
 # include "utils.hpp"
+# include "iterators.hpp"
+# include "reverse_iterator.hpp"
 
 namespace ft
 {
@@ -16,9 +18,15 @@ namespace ft
             int mycapacity;
             std::allocator<T> alloc;
             unsigned int maxsize;
+            
         public:
-            typedef T* iterator;
-            typedef std::reverse_iterator<iterator> reverse_iterator;
+            typedef blRawIterator<T>              iterator;
+            typedef blRawIterator<const T>        const_iterator;
+
+            typedef blRawReverseIterator<T>       reverse_iterator;
+            typedef blRawReverseIterator<const T> const_reverse_iterator;
+        
+            T*                                    m_data;
 
             explicit Vector ()
             {
@@ -96,25 +104,12 @@ namespace ft
                 return maxsize;
             }
             
-            iterator begin()
-            {
-                return arr;
-            }
+            iterator                                       begin(){return iterator(&m_data[0]);}
+            iterator                                       end(){return iterator(&m_data[mysize]);}
 
-            iterator end()
-            {
-                return arr+mysize;
-            }
 
-            reverse_iterator rbegin()
-            {
-                return reverse_iterator(end());
-            }
-
-            reverse_iterator rend()
-            {
-                return reverse_iterator(begin());
-            }
+            reverse_iterator                               rbegin(){return reverse_iterator(&m_data[mysize - 1]);}
+            reverse_iterator                               rend(){return reverse_iterator(&m_data[-1]);}
 
             void resize(int s, T v = NULL)
             {
