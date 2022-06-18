@@ -4,6 +4,9 @@
 # include <iostream>
 # include <string>
 
+#include "iterator.hpp"
+#include "reverse_iterator.hpp"
+
 namespace ft
 {
     template <typename T, class Alloc = std::allocator<T> >
@@ -16,12 +19,12 @@ namespace ft
             std::allocator<T> alloc;
             unsigned int maxsize;
         public:
-            typedef T* iterator;
-            typedef std::reverse_iterator<iterator> reverse_iterator;
+            typedef ft::Iterator<T> iterator;
+            typedef ft::reverse_iterator<T> reverse_iterator;
 
             explicit Vector ()
             {
-                arr = alloc.allocate(1);
+                arr = new T[1];
                 mysize = 0;
                 mycapacity = 1;
                 maxsize = 1073741823;
@@ -29,7 +32,7 @@ namespace ft
             
             explicit Vector (int n, const T& val = NULL)
             {
-                arr = alloc.allocate(n);
+                arr = new T[n];
                 for (int i = 0; i < n; i++)
                     arr[i] = val;
                 mysize = n;
@@ -39,7 +42,7 @@ namespace ft
 
             Vector(const Vector<T> &copy)
             {
-                arr = alloc.allocate(copy.size());
+                arr = new T[copy.size()];
                 for (int i = 0; i < copy.size() ; i++)
                     arr[i] = copy.getArray()[i];
                 mysize = copy.size();
@@ -48,17 +51,17 @@ namespace ft
 
             explicit Vector (iterator first, iterator last)
             {
-                arr = alloc.allocate(1);
+                arr = new T[1];
                 mycapacity = 1;
                 mysize = 0;
                 for (iterator i = first; i < last; i++)
                 {
                     if (mysize == mycapacity)
                     {
-                        T *tmp = alloc.allocate(mycapacity * 2);
+                        T *tmp = new T[mycapacity * 2];
                         for (int i = 0; i < mysize; i++)
                             tmp[i] = arr[i];
-                        alloc.deallocate(arr, mycapacity);
+                        delete[]arr;
                         arr = tmp;
                         mycapacity *= 2;
                     }
@@ -68,13 +71,13 @@ namespace ft
 
             ~Vector()
             {
-               alloc.deallocate(arr, mycapacity);
+               delete[]arr;
             }
             
             Vector & operator=(const Vector &assign)
             {
-               alloc.deallocate(arr, mycapacity);
-                arr = alloc.allocate(assign.size());
+               delete[]arr;
+                arr = new T[assign.size()];
                 for (int i = 0; i < assign.size() ; i++)
                     arr[i] = assign.getArray()[i];
                 mysize = assign.size();
@@ -95,25 +98,21 @@ namespace ft
                 return maxsize;
             }
             
-            iterator begin()
-            {
-                return arr;
-            }
+            iterator begin() { return Iterator(&arr[0]); }
+            iterator end()   { return Iterator(&arr[mysize-1]); }
 
-            iterator end()
-            {
-                return arr+mysize;
-            }
+            reverse_iterator rbegin() { return reverse_iterator(&arr[mysize-1]); }
+            reverse_iterator rend()   { return reverse_iterator(&arr[-1]); }
 
-            reverse_iterator rbegin()
-            {
-                return reverse_iterator(end());
-            }
+            // reverse_iterator rbegin()
+            // {
+            //     return reverse_iterator(end());
+            // }
 
-            reverse_iterator rend()
-            {
-                return reverse_iterator(begin());
-            }
+            // reverse_iterator rend()
+            // {
+            //     return reverse_iterator(begin());
+            // }
 
             void resize(int s, T v = NULL)
             {
@@ -121,12 +120,12 @@ namespace ft
                     mysize = s;
                 if (mysize < s)
                 {
-                    T* tmp = alloc.allocate(s);
+                    T* tmp = new T[s];
                     for (int i = 0; i < mysize; i++)
                         tmp[i] = arr[i];
                     for (int i = mysize; i < s; i++)
                         tmp[i] = v;
-                   alloc.deallocate(arr, mycapacity);
+                   delete[]arr;
                     arr = tmp;
                     mysize = s;
                 }
@@ -148,10 +147,10 @@ namespace ft
             {
                 if (n > mycapacity)
                 {
-                    T* tmp = alloc.allocate(n);
+                    T* tmp = new T[n];
                     for (int i = 0; i < mysize; i++)
                         tmp[i] = arr[i];
-                   alloc.deallocate(arr, mycapacity);
+                   delete[]arr;
                     arr = tmp;
                     mycapacity = n;
                 }
@@ -191,10 +190,10 @@ namespace ft
             {
                 if (mysize == mycapacity)
                 {
-                    T *tmp = alloc.allocate(mycapacity * 2);
+                    T *tmp = new T[mycapacity * 2];
                     for (int i = 0; i < mysize; i++)
                         tmp[i] = arr[i];
-                   alloc.deallocate(arr, mycapacity);
+                   delete[]arr;
                     arr = tmp;
                     mycapacity *= 2;
                 }
@@ -209,11 +208,11 @@ namespace ft
 
             void assign (int n, const T& val)
             {
-                T *tmp = alloc.allocate(n);
+                T *tmp = new T[n];
                 mysize = 0;
                 for (int i = 0; i < n; i++)
                     tmp[mysize++] = val;
-               alloc.deallocate(arr, mycapacity);
+               delete[]arr;
                 arr = tmp;
             }
 
@@ -225,10 +224,10 @@ namespace ft
                 {
                     if (mysize == mycapacity)
                     {
-                        T *tmp = alloc.allocate(mycapacity * 2);
+                        T *tmp = new T[mycapacity * 2];
                         for (int i = 0; i < mysize; i++)
                             tmp[i] = arr[i];
-                       alloc.deallocate(arr, mycapacity);
+                       delete[]arr;
                         arr = tmp;
                         mycapacity *= 2;
                     }
@@ -238,17 +237,18 @@ namespace ft
 
             iterator insert (iterator position, const T& val)
             {
+                
                 int pos = position - arr;
                 if (mysize + 1 >= mycapacity)
                 {
-                    T *tmp = alloc.allocate(mycapacity * 2);
+                    T *tmp = new T[mycapacity * 2];
                     for (int i = 0; i < mysize; i++)
                         tmp[i] = arr[i];
-                   alloc.deallocate(arr, mycapacity);
+                   delete[]arr;
                     arr = tmp;
                     mycapacity *= 2;
                 }
-                T *tmp2 = alloc.allocate(mycapacity);
+                T *tmp2 = new T[mycapacity];
                 for (int i = 0, j = 0; i <= mysize;i++)
                 {
                     if (i == pos)
@@ -256,9 +256,10 @@ namespace ft
                         tmp2[j] = val;
                         j++;
                     }
+                    
                     tmp2[j++] = arr[i];
                 }
-               alloc.deallocate(arr, mycapacity);
+                delete[]arr;
                 arr = tmp2;
                 mysize += 1;
                 return begin();
@@ -269,14 +270,14 @@ namespace ft
                 int pos = position - arr;
                 if (mysize + n >= mycapacity)
                 {
-                    T *tmp = alloc.allocate(mycapacity + n);
+                    T *tmp = new T[mycapacity + n];
                     for (int i = 0; i < mysize; i++)
                         tmp[i] = arr[i];
-                   alloc.deallocate(arr, mycapacity);
+                   delete[]arr;
                     arr = tmp;
                     mycapacity += n;
                 }
-                T *tmp2 = alloc.allocate(mycapacity);
+                T *tmp2 = new T[mycapacity];
                 for (int i = 0, j = 0; i <= mysize;i++)
                 {
                     if (i == pos)
@@ -286,7 +287,7 @@ namespace ft
                     }
                     tmp2[j++] = arr[i];
                 }
-               alloc.deallocate(arr, mycapacity);
+               delete[]arr;
                 arr = tmp2;
                 mysize += n;
             }
@@ -296,14 +297,14 @@ namespace ft
                 int pos = position - arr;
                 if (mysize + last-first >= mycapacity)
                 {
-                    T *tmp = alloc.allocate(mycapacity * 2 + last-first);
+                    T *tmp = new T[mycapacity * 2 + last-first];
                     for (int i = 0; i < mysize; i++)
                         tmp[i] = arr[i];
-                   alloc.deallocate(arr, mycapacity);
+                   delete[]arr;
                     arr = tmp;
                     mycapacity = mycapacity * 2 + last-first;
                 }
-                T *tmp2 = alloc.allocate(mycapacity);
+                T *tmp2 = new T[mycapacity];
                 for (int i = 0, j = 0; i <= mysize;i++)
                 {
                     if (i == pos)
@@ -316,7 +317,7 @@ namespace ft
                     }
                     tmp2[j++] = arr[i];
                 }
-               alloc.deallocate(arr, mycapacity);
+                delete[]arr;
                 arr = tmp2;
                 mysize += last-first;
             }
@@ -325,14 +326,14 @@ namespace ft
             iterator erase (iterator position)
             {
                 int pos = position - arr;
-                T *tmp = alloc.allocate(mycapacity);
+                T *tmp = new T[mycapacity];
                 for (int i = 0, j = 0; i <= mysize;i++)
                 {
                     if (i == pos)
                         continue;
                     tmp[j++] = arr[i];
                 }
-               alloc.deallocate(arr, mycapacity);
+               delete[] arr;
                 arr = tmp;
                 mysize -= 1;
                 return position;
@@ -342,14 +343,14 @@ namespace ft
             {
                 int firstpos = first - arr;
                 int lastpos = last - arr;
-                T *tmp = alloc.allocate(mycapacity);
+                T *tmp = new T[mycapacity];
                 for (int i = 0,j = 0; i < mysize;i++)
                 {
                     if (i == firstpos)
                         i += lastpos - firstpos;
                     tmp[j++] = arr[i];
                 }
-               alloc.deallocate(arr, mycapacity);
+               delete[]arr;
                 arr = tmp;
                 mysize -= (lastpos - firstpos);
                 return first;
@@ -370,8 +371,8 @@ namespace ft
 
             void clear()
             {
-               alloc.deallocate(arr, mycapacity);
-                arr = alloc.allocate(1);
+               delete[]arr;
+                arr = new T[1];
                 mysize = 0;
                 mycapacity = 1;
             }

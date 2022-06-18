@@ -1,6 +1,7 @@
 #include "Vector.hpp"
 #include <iostream>
 #include <vector>
+#include "iterator.hpp"
 
 using namespace std;
 
@@ -203,15 +204,23 @@ int main()
     // else
     //     std::cout << "The contents of both sequences differ.\n";
 
-    std::vector<int> foo (3,100);   // three ints with a value of 100
-    std::vector<int> bar (2,200);   // two ints with a value of 200
+    // std::vector<int> foo (3,100);   // three ints with a value of 100
+    // std::vector<int> bar (2,200);   // two ints with a value of 200
 
-    if (foo==bar) std::cout << "foo and bar are equal\n";
-    if (foo!=bar) std::cout << "foo and bar are not equal\n";
-    if (foo< bar) std::cout << "foo is less than bar\n";
-    if (foo> bar) std::cout << "foo is greater than bar\n";
-    if (foo<=bar) std::cout << "foo is less than or equal to bar\n";
-    if (foo>=bar) std::cout << "foo is greater than or equal to bar\n";
+    // if (foo==bar) std::cout << "foo and bar are equal\n";
+    // if (foo!=bar) std::cout << "foo and bar are not equal\n";
+    // if (foo< bar) std::cout << "foo is less than bar\n";
+    // if (foo> bar) std::cout << "foo is greater than bar\n";
+    // if (foo<=bar) std::cout << "foo is less than or equal to bar\n";
+    // if (foo>=bar) std::cout << "foo is greater than or equal to bar\n";
+    
+    ft::Vector<int> v;
+    v.push_back(21);
+    v.push_back(33);
+    v.push_back(44);
+
+    for (ft::reverse_iterator<int> i = v.rbegin(); i != v.rend(); ++i)
+      cout << *i << endl;
 
   return 0;
 }
