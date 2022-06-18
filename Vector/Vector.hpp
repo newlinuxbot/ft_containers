@@ -147,7 +147,7 @@ namespace ft
                     T* tmp = alloc.allocate(n);
                     for (int i = 0; i < mysize; i++)
                         tmp[i] = arr[i];
-                   alloc.deallocate(arr, mycapacity);
+                    alloc.deallocate(arr, mycapacity);
                     arr = tmp;
                     mycapacity = n;
                 }
