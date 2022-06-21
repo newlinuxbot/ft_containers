@@ -19,24 +19,24 @@ namespace ft
 		public:
 			// Constructors
 			reverse_iterator(T* ptr) : _ptr(ptr) {};
-			reverse_iterator(const reverse_iterator &copy){};
+			reverse_iterator(const reverse_iterator &copy){(void)copy;};
 			
 			// Destructor
 			~reverse_iterator() {};
 			
 			// Operators
-			reverse_iterator & operator=(const reverse_iterator &assign){};
+			reverse_iterator & operator=(const reverse_iterator &assign){(void)assign;};
 
 			reference operator*() const { return *_ptr; }
 			pointer operator->() { return _ptr; }
 
 			reverse_iterator& operator++() { _ptr--; return *this; }
 
-			reverse_iterator operator++(int) { reverse_iterator tmp = *this; --(*this); return tmp; }
+			reverse_iterator operator++(int) { reverse_iterator tmp = *this; ++(*this); return tmp; }
 
 			reverse_iterator& operator--() { _ptr++; return *this; }
 
-			reverse_iterator operator--(int) { reverse_iterator tmp = *this; ++(*this); return tmp; }
+			reverse_iterator operator--(int) { reverse_iterator tmp = *this; --(*this); return tmp; }
 
             bool operator< (const reverse_iterator<T>& rhs)
             {
@@ -56,8 +56,13 @@ namespace ft
             }
 
 			friend bool operator== (const reverse_iterator& a, const reverse_iterator& b) { return a._ptr == b._ptr; };
+            friend bool operator- (const reverse_iterator& a, const reverse_iterator& b) { return a._ptr - b._ptr; };
+			friend bool operator+ (const reverse_iterator& a, const reverse_iterator& b) { return a._ptr + b._ptr; };
+			friend bool operator/ (const reverse_iterator& a, const reverse_iterator& b) { return a._ptr / b._ptr; };
+			friend bool operator* (const reverse_iterator& a, const reverse_iterator& b) { return a._ptr * b._ptr; };
 			friend bool operator!= (const reverse_iterator& a, const reverse_iterator& b) { return a._ptr != b._ptr; };
 			
+            
 		private:
 			T* _ptr;
 	};

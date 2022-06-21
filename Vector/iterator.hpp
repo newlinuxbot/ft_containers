@@ -19,13 +19,17 @@ namespace ft
 		public:
 			// Constructors
 			Iterator(T* ptr) : _ptr(ptr) {};
-			Iterator(const Iterator &copy){};
+			Iterator(const Iterator &copy){(void)copy;};
 			
 			// Destructor
 			~Iterator() {};
 			
 			// Operators
-			Iterator & operator=(const Iterator &assign){};
+	
+			Iterator & operator=(const Iterator &assign){
+				_ptr = assign._ptr;
+				return *this;
+			}
 
 			reference operator*() const { return *_ptr; }
 			pointer operator->() { return _ptr; }
@@ -38,7 +42,7 @@ namespace ft
 
 			Iterator operator--(int) { Iterator tmp = *this; --(*this); return tmp; }
 
-            bool operator< (const Iterator<T>& rhs)
+            bool operator< (const Iterator& rhs)
             {
                 return _ptr < rhs._ptr;
             }
@@ -56,11 +60,18 @@ namespace ft
             }
 
 			friend bool operator== (const Iterator& a, const Iterator& b) { return a._ptr == b._ptr; };
+			friend bool operator- (const Iterator& a, const Iterator& b) { return a._ptr - b._ptr; };
+			friend bool operator+ (const Iterator& a, const Iterator& b) { return a._ptr + b._ptr; };
+			friend bool operator/ (const Iterator& a, const Iterator& b) { return a._ptr / b._ptr; };
+			friend bool operator* (const Iterator& a, const Iterator& b) { return a._ptr * b._ptr; };
 			friend bool operator!= (const Iterator& a, const Iterator& b) { return a._ptr != b._ptr; };
 			
-		private:
+			
+		public:
 			T* _ptr;
 	};
+
+		
 }
 
 #endif

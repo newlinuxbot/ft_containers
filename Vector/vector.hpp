@@ -1,5 +1,5 @@
-#ifndef VECTOR_HPP
-# define VECTOR_HPP
+#ifndef vector_HPP
+# define vector_HPP
 
 # include <iostream>
 # include <string>
@@ -10,7 +10,7 @@
 namespace ft
 {
     template <typename T, class Alloc = std::allocator<T> >
-    class Vector
+    class vector
     {
         private:
             T *arr;
@@ -22,7 +22,7 @@ namespace ft
             typedef ft::Iterator<T> iterator;
             typedef ft::reverse_iterator<T> reverse_iterator;
 
-            explicit Vector ()
+            explicit vector ()
             {
                 arr = new T[1];
                 mysize = 0;
@@ -30,7 +30,7 @@ namespace ft
                 maxsize = 1073741823;
             }
             
-            explicit Vector (int n, const T& val = NULL)
+            explicit vector (int n, const T& val = NULL)
             {
                 arr = new T[n];
                 for (int i = 0; i < n; i++)
@@ -40,7 +40,7 @@ namespace ft
                 maxsize = 1073741823;
             }
 
-            Vector(const Vector<T> &copy)
+            vector(const vector<T> &copy)
             {
                 arr = new T[copy.size()];
                 for (int i = 0; i < copy.size() ; i++)
@@ -49,7 +49,7 @@ namespace ft
                 mycapacity = copy.capacity();
             }
 
-            explicit Vector (iterator first, iterator last)
+            explicit vector (iterator first, iterator last)
             {
                 arr = new T[1];
                 mycapacity = 1;
@@ -69,12 +69,12 @@ namespace ft
                 } 
             }
 
-            ~Vector()
+            ~vector()
             {
                delete[]arr;
             }
             
-            Vector & operator=(const Vector &assign)
+            vector & operator=(const vector &assign)
             {
                delete[]arr;
                 arr = new T[assign.size()];
@@ -98,21 +98,11 @@ namespace ft
                 return maxsize;
             }
             
-            iterator begin() { return Iterator(&arr[0]); }
-            iterator end()   { return Iterator(&arr[mysize-1]); }
+            iterator begin() { return iterator(&arr[0]); }
+            iterator end()   { return iterator(&arr[mysize-1]); }
 
             reverse_iterator rbegin() { return reverse_iterator(&arr[mysize-1]); }
             reverse_iterator rend()   { return reverse_iterator(&arr[-1]); }
-
-            // reverse_iterator rbegin()
-            // {
-            //     return reverse_iterator(end());
-            // }
-
-            // reverse_iterator rend()
-            // {
-            //     return reverse_iterator(begin());
-            // }
 
             void resize(int s, T v = NULL)
             {
@@ -220,18 +210,18 @@ namespace ft
             {
                 mycapacity = 1;
                 mysize = 0;
-                for (iterator i = first; i < last; i++)
+                for (; first < last; first++)
                 {
                     if (mysize == mycapacity)
                     {
                         T *tmp = new T[mycapacity * 2];
                         for (int i = 0; i < mysize; i++)
                             tmp[i] = arr[i];
-                       delete[]arr;
+                        delete[]arr;
                         arr = tmp;
                         mycapacity *= 2;
                     }
-                    arr[mysize++] = *i;
+                    arr[mysize++] = *first;
                 } 
             }
 
@@ -356,7 +346,7 @@ namespace ft
                 return first;
             }
 
-            void swap (Vector& x)
+            void swap (vector& x)
             {
                 T* tmpArr = arr;
                 int tmpMySize = mysize;
@@ -366,7 +356,7 @@ namespace ft
                 mycapacity = x.mycapacity;
                 x.arr = tmpArr;
                 x.mysize = tmpMySize;
-                x.mycapacity = mycapacity;
+                x.mycapacity = tmpMyCapacity;
             }
 
             void clear()
@@ -391,7 +381,7 @@ namespace ft
             bool equal ( iterator first1, iterator last1, iterator first2, bool (*func)(T,T))
             {
                 while (first1!=last1) {
-                        if (!pred(*first1,*first2))
+                        if (!func(*first1,*first2))
                         return false;
                         ++first1; ++first2;
                     }
@@ -409,31 +399,31 @@ namespace ft
                 return (first2!=last2);
             }
 
-            bool operator== (const Vector<T,Alloc>& rhs)
+            bool operator== (const vector<T,Alloc>& rhs)
             {
                 if (mysize != rhs.size())
                     return false;
                 return equal(begin(), end(), rhs.begin());
             }
-            bool operator!= (const Vector<T,Alloc>& rhs)
+            bool operator!= (const vector<T,Alloc>& rhs)
             {
                 if (mysize == rhs.size())
                     return false;
                 return !equal(begin(), end(), rhs.begin());
             }
-            bool operator< (const Vector<T,Alloc>& rhs)
+            bool operator< (const vector<T,Alloc>& rhs)
             {
                 return lexicographical_compare(begin(), end(), rhs.begin(), rhs.end());
             }
-            bool operator> (const Vector<T,Alloc>& rhs)
+            bool operator> (const vector<T,Alloc>& rhs)
             {
                 return lexicographical_compare(rhs.begin(), rhs.end(), begin(), end());
             }
-            bool operator<= (const Vector<T,Alloc>& rhs)
+            bool operator<= (const vector<T,Alloc>& rhs)
             {
                 return equal(begin(), end(), rhs.begin()) || !lexicographical_compare(begin(), end(), rhs.begin(), rhs.end());
             }
-             bool operator>= (const Vector<T,Alloc>& rhs)
+             bool operator>= (const vector<T,Alloc>& rhs)
             {
                 return equal(begin(), end(), rhs.begin()) || !lexicographical_compare(rhs.begin(), rhs.end(), begin(), end());
             }
